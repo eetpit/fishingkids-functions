@@ -45,14 +45,18 @@ findNextStep = (context, currentStepNumber, chosenAnswerNumber, manualEntry) => 
     }
 
     const currentStep = steps.find(item => item.step === currentStepNumber)
-    const currentAnswerOptions = currentStep.answerOptions
+    const messageWithAnswerOption = currentStep.messages.find(item => item.answerOptions)
 
-    if (currentAnswerOptions) {
-        const chosenAnswer = currentAnswerOptions[chosenAnswerNumber]
+    if (messageWithAnswerOption) {
+        const chosenAnswer = messageWithAnswerOption.answerOptions[chosenAnswerNumber]
         const nextStep = steps.find(item => item.step === chosenAnswer.nextStep)
 
         nextStep.messages = nextStep.messages.map(item => {
-            return item.message.replace("%placeholder%", manualEntry ? manualEntry : "Anonymous")
+            if (item.message) {
+                item.message = item.message.replace("%placeholder%", manualEntry ? manualEntry : "Anonymous")
+            }
+
+            return item
         })
 
         return nextStep
