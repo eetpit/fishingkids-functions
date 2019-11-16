@@ -4,10 +4,19 @@ module.exports = async function (context, req) {
         const chosenAnswerNumber = +req.body.chosenAnswer
         const manualEntry = req.body.manualEntry
 
-        if (currentStepNumber === null || currentStepNumber === undefined) {
+        if (isNaN(currentStepNumber)) {
             context.res = {
                 status: 400,
-                body: 'Missing required param currentStepNumber'
+                body: { errorMessage: 'Missing required param currentStep' }
+            }
+
+            return
+        }
+
+        if (currentStepNumber > 0 && isNaN(chosenAnswerNumber)) {
+            context.res = {
+                status: 400,
+                body: { errorMessage: 'Missing required param chosenAnswer' }
             }
 
             return
@@ -22,7 +31,7 @@ module.exports = async function (context, req) {
         context.log(`Caught error: ${JSON.stringify(error)}`)
         context.res = {
             status: 404,
-            body: `Step not found with params ${req.body.currentStep} ${req.body.chosenAnswer} ${req.body.manualEntry}`
+            body: { errorMessage: `Step not found with params ${req.body.currentStep} ${req.body.chosenAnswer} ${req.body.manualEntry}` }
         }
     }
 }
