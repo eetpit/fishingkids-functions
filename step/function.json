@@ -1,0 +1,27 @@
+{
+  "bindings": [
+    {
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "name": "steps",
+      "databaseName": "fishingkids",
+      "collectionName": "steps",
+      "connectionStringSetting": "fishingkids_DOCUMENTDB",
+      "direction": "in"
+    }
+  ]
+}
